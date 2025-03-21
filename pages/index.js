@@ -74,11 +74,18 @@ export default function Home({ latestPosts }) {
 export async function getStaticProps() {
   const allPosts = getAllContent('content/blog')
   
-  // Convert Date objects to ISO strings for serialization
-  const latestPosts = allPosts.slice(0, 3).map(post => ({
-    ...post,
-    date: post.date ? post.date.toISOString() : null,
-  }))
+  // Ensure dates are serializable
+  const latestPosts = allPosts.slice(0, 3).map(post => {
+    // If date exists but is not already a string, convert it
+    const serializedDate = post.date 
+      ? (post.date instanceof Date ? post.date.toISOString() : post.date)
+      : null;
+      
+    return {
+      ...post,
+      date: serializedDate,
+    };
+  });
   
   return {
     props: {
