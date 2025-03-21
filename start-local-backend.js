@@ -6,7 +6,7 @@ const path = require('path');
 
 console.log('Starting Decap CMS local backend server...');
 
-// Run the npx command to start the local backend server
+// Run the local decap-server from node_modules
 const command = 'npx decap-server';
 
 // Execute the command

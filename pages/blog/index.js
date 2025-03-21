@@ -27,8 +27,8 @@ export default function BlogIndex({ posts }) {
               <div className="text-sm text-gray-500 mb-4">
                 {post.date && new Date(post.date).toLocaleDateString()}
               </div>
-              <Link href={`/blog/${post.slug}`}>
-                <a className="text-blue-600 hover:underline">Read more</a>
+              <Link href={`/blog/${post.slug}`} className="text-blue-600 hover:underline">
+                Read more
               </Link>
             </div>
           </div>
@@ -39,7 +39,13 @@ export default function BlogIndex({ posts }) {
 }
 
 export async function getStaticProps() {
-  const posts = getAllContent('content/blog')
+  const allPosts = getAllContent('content/blog')
+  
+  // Convert Date objects to ISO strings for serialization
+  const posts = allPosts.map(post => ({
+    ...post,
+    date: post.date ? post.date.toISOString() : null,
+  }))
   
   return {
     props: {

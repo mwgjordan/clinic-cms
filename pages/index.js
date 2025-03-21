@@ -21,15 +21,11 @@ export default function Home({ latestPosts }) {
             We provide comprehensive healthcare services with a focus on patient comfort and well-being.
           </p>
           <div className="mt-8 flex justify-center gap-4">
-            <Link href="/about">
-              <a className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
-                About Us
-              </a>
+            <Link href="/about" className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+              About Us
             </Link>
-            <Link href="/blog">
-              <a className="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-300 transition">
-                Our Blog
-              </a>
+            <Link href="/blog" className="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-300 transition">
+              Our Blog
             </Link>
           </div>
         </section>
@@ -54,16 +50,16 @@ export default function Home({ latestPosts }) {
                     <div className="text-sm text-gray-500 mb-4">
                       {post.date && new Date(post.date).toLocaleDateString()}
                     </div>
-                    <Link href={`/blog/${post.slug}`}>
-                      <a className="text-blue-600 hover:underline">Read more</a>
+                    <Link href={`/blog/${post.slug}`} className="text-blue-600 hover:underline">
+                      Read more
                     </Link>
                   </div>
                 </div>
               ))}
             </div>
             <div className="mt-6 text-center">
-              <Link href="/blog">
-                <a className="text-blue-600 hover:underline">View all posts</a>
+              <Link href="/blog" className="text-blue-600 hover:underline">
+                View all posts
               </Link>
             </div>
           </section>
@@ -77,7 +73,12 @@ export default function Home({ latestPosts }) {
 
 export async function getStaticProps() {
   const allPosts = getAllContent('content/blog')
-  const latestPosts = allPosts.slice(0, 3)
+  
+  // Convert Date objects to ISO strings for serialization
+  const latestPosts = allPosts.slice(0, 3).map(post => ({
+    ...post,
+    date: post.date ? post.date.toISOString() : null,
+  }))
   
   return {
     props: {
